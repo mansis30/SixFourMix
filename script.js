@@ -5,13 +5,25 @@ function process(action) {
     const outputField = document.getElementById('output');
     
     try {
-        if (action === 'encode') {
-            outputField.value = format === 'base64' ? b64Encode(input) : hexEncode(input);
-        } else {
-            outputField.value = format === 'base64' ? b64Decode(input) : hexDecode(input);
+        switch(format) {
+            case 'base64':
+                outputField.value = (action === 'encode') ? b64Encode(input) : b64Decode(input);
+                break;
+            case 'hex':
+                outputField.value = (action === 'encode') ? hexEncode(input) : hexDecode(input);
+                break;
+            case 'rot13':
+                // ROT13 doesn't need separate encode/decode buttons
+                outputField.value = rot13(input);
+                break;
+            case 'binary':
+                outputField.value = (action === 'encode') ? binaryEncode(input) : binaryDecode(input);
+                break;
+            default:
+                outputField.value = "Format not supported.";
         }
     } catch (e) {
-        outputField.value = "Error: Invalid input for decoding.";
+        outputField.value = "Error: Invalid input for this format.";
     }
 }
 
@@ -49,4 +61,21 @@ function copyToClipboard() {
     output.select();
     document.execCommand('copy');
     alert("Copied to clipboard!");
+}
+
+// --- ROT13 Logic ---
+// ROT13 is its own inverse; applying it twice returns the original text
+function rot13(str) {
+    return str.replace(/[a-z]/gi, letter => 
+        String.fromCharCode(letter.charCodeAt(0) + (letter.toLowerCase() <= 'm' ? 13 : -13))
+    );
+}
+
+// --- Binary Logic ---
+function binaryEncode(str) {
+    return str.split('').map(char => char.charCodeAt(0).toString(2).padStart(8, '0')).join(' ');
+}
+
+function binaryDecode(bin) {
+    return bin.split(' ').map(b => String.fromCharCode(parseInt(b, 2))).join('');
 }
