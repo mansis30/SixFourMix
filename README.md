@@ -21,10 +21,3 @@ The app uses the browser's native `btoa` (Binary to ASCII) and `atob` (ASCII to 
 ### Hexadecimal Logic
 Data is converted by taking the Unicode value of each character, converting it to a **base-16** string, and padding it to ensure a consistent 2-digit format.
 
-## 📂 Folder Structure
-```text
-SixFourMix/
-├── index.html   # User Interface
-├── style.css    # Styles
-├── script.js    # Conversion Logic
-└── README.md    # Documentation
