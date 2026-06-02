@@ -1,4 +1,4 @@
-// Function to handle the button clicks
+
 function process(action) {
     const input = document.getElementById('input').value;
     const format = document.getElementById('format').value;
@@ -13,7 +13,7 @@ function process(action) {
                 outputField.value = (action === 'encode') ? hexEncode(input) : hexDecode(input);
                 break;
             case 'rot13':
-                // ROT13 doesn't need separate encode/decode buttons
+                
                 outputField.value = rot13(input);
                 break;
             case 'binary':
@@ -27,7 +27,7 @@ function process(action) {
     }
 }
 
-// --- Base64 Logic ---
+
 function b64Encode(str) {
     return btoa(unescape(encodeURIComponent(str)));
 }
@@ -36,7 +36,7 @@ function b64Decode(str) {
     return decodeURIComponent(escape(atob(str)));
 }
 
-// --- Hex Logic ---
+
 function hexEncode(str) {
     let result = '';
     for (let i = 0; i < str.length; i++) {
@@ -47,7 +47,7 @@ function hexEncode(str) {
 
 function hexDecode(hex) {
     let str = '';
-    // Remove spaces and 0x prefixes
+    
     hex = hex.replace(/\s|0x/g, '');
     for (let i = 0; i < hex.length; i += 2) {
         str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
@@ -55,7 +55,7 @@ function hexDecode(hex) {
     return str;
 }
 
-// Utility: Copy to Clipboard
+
 function copyToClipboard() {
     const output = document.getElementById('output');
     output.select();
@@ -63,15 +63,14 @@ function copyToClipboard() {
     alert("Copied to clipboard!");
 }
 
-// --- ROT13 Logic ---
-// ROT13 is its own inverse; applying it twice returns the original text
+
 function rot13(str) {
     return str.replace(/[a-z]/gi, letter => 
         String.fromCharCode(letter.charCodeAt(0) + (letter.toLowerCase() <= 'm' ? 13 : -13))
     );
 }
 
-// --- Binary Logic ---
+
 function binaryEncode(str) {
     return str.split('').map(char => char.charCodeAt(0).toString(2).padStart(8, '0')).join(' ');
 }
